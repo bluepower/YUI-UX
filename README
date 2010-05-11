@@ -4,8 +4,8 @@
 
 @since 2010-03-16
 
-@base-lib yui3
-http://developer.yahoo.com/yui/3/
+@base-lib yui2 & yui3
+http://developer.yahoo.com/yui/
 
 @link
 -To be continued...
