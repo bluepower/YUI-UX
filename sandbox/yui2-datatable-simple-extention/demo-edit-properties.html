@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>YUI2 Datatable Simple Extention - Admin UI</title>	
+    <link type="text/css" rel="stylesheet" href="styles/datatable-skin.css" />
+	<link type="text/css" rel="stylesheet" href="styles/datatable-ux.css" />
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/datasource/datasource-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/datatable/datatable-min.js"></script>
+
+	<script type="text/javascript" src="scripts/datatable-ux.js"></script>
+</head>
+
+<body class="yui-skin-sam">
+
+    <div id="datatable-ux">
+		<div id="datatable-ux-hd"></div>
+
+		<div id="datatable-ux-bd">
+			<div id="node-depths" style="display: none">root  &gt; Testing  &gt; 5_Dev Testing BA  &gt; 80000_1010</div>
+			<div id="output"></div>
+			<div id="yui-datatable" class="yui-dt"></div>
+		</div>
+
+		<div id="datatable-ux-ft"></div>
+    </div>
+
+	<div id="node-apply-wrap" style="display: none;">
+		<fieldset>
+			<legend>Apply to</legend>
+			<input type="radio" name="node-apply" checked="checked" />Current node only<br />
+			<input type="radio" name="node-apply" />Current node and child nodes<br />
+			<input type="radio" name="node-apply" />Child nodes only
+		</fieldset>
+	</div>
+
+</body>
+</html>

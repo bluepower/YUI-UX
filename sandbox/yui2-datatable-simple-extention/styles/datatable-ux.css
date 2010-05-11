@@ -1,0 +1,73 @@
+/* styles for examples */
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #E9EFF4;
+	font: normal 12px verdana,helvetica,arial,sans-serif;    
+}
+
+#datatable-ux {
+	clear: both;
+	margin: 0 auto;
+	width: 997px;
+}
+
+#datatable-ux-hd {
+    width: 997px;
+	height: 229px;
+	background: url(../images/bg-example-top.gif) no-repeat;
+}
+
+#datatable-ux-bd {	
+	padding: 0 10px 10px 10px;
+	background-color: #fff;
+	border-left: 1px solid #C2C2C2;
+	border-right: 1px solid #C2C2C2;
+}
+
+#datatable-ux-ft {
+    width: 997px;
+	height: 36px;
+	background: url(../images/bg-example-bottom.gif) no-repeat;
+}
+
+/* styles for datatable customization */
+.yui-skin-sam .yui-dt tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+.yui-skin-sam .yui-dt tr.mark,.yui-skin-sam .yui-dt tr.mark td.yui-dt-asc,.yui-skin-sam .yui-dt tr.mark td.yui-dt-desc,.yui-skin-sam .yui-dt tr.mark td.yui-dt-asc,.yui-skin-sam .yui-dt tr.mark td.yui-dt-desc {
+	background-color: #F2F2F2;
+}
+
+.yui-skin-sam .yui-dt-selected a {
+	color: #f00;
+}
+
+.admin-editor-hd {
+	padding-left: 16px;
+	height: 25px;
+	line-height: 25px;
+	background-color: #A93333;
+	color: #fff;
+	font-size: 90%;
+}
+
+.admin-editor-pd {
+	margin: 10px 0 0 20px;
+	font-size: 90%;
+}
+
+.admin-editor-fieldset {
+	margin: 15px 28px 0 18px;
+}
+
+.admin-editor-radio {
+	margin: 10px 0 0 50px;
+}
+
+.admin-editor-dropdown {
+	background-color: #A6A6A6;
+	color: #fff;
+	font-size: 90%;
+}
