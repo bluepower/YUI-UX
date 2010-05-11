@@ -290,27 +290,6 @@
 
 				oRecord.setData("ApplyFrom",oRecord.getData("ApplyTo"));
 				oEditor.getDataTable().render();
-
-				/*var reqSavePropertyCallback = {
-					success : function(o) {
-						var xmlDoc = o.responseXML;
-						var savedValue = xmlDoc.getElementsByTagName('XComponent')[0].getAttribute('id');
-						o.argument.record.setData('Id',savedValue);
-						Dom.get("output").innerHTML ="<p> Property updated successfully ! </p>";
-					},
-
-					failure : function(o) {
-						Dom.get("output").innerHTML ="<p> Error: property not updated! </p>";
-					},
-
-					argument:{ record: oRecord }
-				};
-
-				var reqSaveProperty = util.Connect.asyncRequest(
-					"GET",
-					"../admin/saveProperty.do?xiId=10676&propName=" + propName + "&propVal=" + escape(newData) + "&ts=" + new Date().getTime(),
-					reqSavePropertyCallback
-				);*/
 			};
 
 			// Assign the handler to the Custom Event
