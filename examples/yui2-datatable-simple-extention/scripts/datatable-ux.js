@@ -1,5 +1,5 @@
 //------------------------------------------------------------
-// START YUI DataTable CellEditor Extention
+// START YUI DataTable CellEditor Extension
 //------------------------------------------------------------
    var lang = YAHOO.lang,
 	   util = YAHOO.util,
@@ -83,7 +83,7 @@
 	   }
    });
 //------------------------------------------------------------
-// END YUI DataTable CellEditor Extention
+// END YUI DataTable CellEditor Extension
 //------------------------------------------------------------ 
 
 	var formatName = function(elCell, oRecord, oColumn, oData) {
@@ -131,7 +131,7 @@
 			var myDataSource, myDataTable;
 
 			var editors = {
-				1 : new Gcc.admin.TextboxCellEditor()
+				 1: new Gcc.admin.TextboxCellEditor()
 				,2: new Gcc.admin.TextboxCellEditor({validator:function (val,curVal,editorInstance) {
 						if (/^-?\d*$/.test(val)) {return val;}
 						else {
@@ -152,30 +152,36 @@
 							this.errMsgDiv.innerHTML = "Must be a numeric value.";
 						}
 					}})
-				,4 : new Gcc.admin.RadioCellEditor({radioOptions:[{label:"yes",value:'1'},{label:"no",value:'0'}]})
+				,4: new Gcc.admin.RadioCellEditor({radioOptions:[{label:"True",value:'1'},{label:"False",value:'0'}]})
+				//,8: new Gcc.admin.DropdownCellEditor({disableBtns: false,dropdownOptions:[]})
+			};
+
+			var fnSetDropdownCellEditor = function(type, dropdownOptions) {
+				editors[type] = new Gcc.admin.DropdownCellEditor({disableBtns: false, dropdownOptions: dropdownOptions});
+				editors[type].subscribe("saveEvent", myDataTable._onEditorSaveEvent, myDataTable, true);
 			};
 
 			var myColumnDefs = [
 				{
-					key :"Name",
-					label :"Property Name",
-					resizeable :true,
-					sortable :true
-					,formatter: formatName
+					key : "Name",
+					label : "Property Name",
+					resizeable : true,
+					sortable : true,
+					formatter : formatName
 				},
 				{
-					key :"Value",
+					key : "Value",
 					editor : new widget.BaseCellEditor(),
-					resizeable :true,
-					sortable :true,
-					formatter: formatValue
+					resizeable : true,
+					sortable : true,
+					formatter : formatValue
 				},
 				{
-					key :"Revert",
-					label :"Remark",
-					resizeable :true,
-					sortable :false,
-					formatter: null
+					key : "Revert",
+					label : "Remark",
+					resizeable : true,
+					sortable : false,
+					formatter : null
 				}
 			];
 
@@ -215,12 +221,11 @@
 				if (record.getData('Writable')=='false') return;
 
 				if (type == 8){ // This is a drop down
-					var domain = record.getData('Domain');
-					column.editor = new Gcc.admin.DropdownCellEditor({disableBtns: false,dropdownOptions:domain});
-				} else {
-					// default editors
-					column.editor = editors[type];
+					fnSetDropdownCellEditor(type, record.getData('Domain'));
 				}
+
+				// default editors
+				column.editor = editors[type];
 
 				// Reset the err msg if any
 				if (!lang.isUndefined(column.editor.errMsgDiv)) {
@@ -234,7 +239,6 @@
 
 				// Is there a reg ex ?
 				var rule = record.getData('Rule');
-
 				if (rule != null) {
 					var msg = record.getData('RuleMsg');
 					column.editor.validator =  function (val,curVal,editorInstance) {
@@ -254,7 +258,10 @@
 					column.editor.validator = column.editor.original_validator;
 				}
 
-				column.editor.subscribe("saveEvent", this._onEditorSaveEvent, this, true);
+				// Thanks for Jenny to point out this is a problem
+				// because every time clicking a cell, a new subscription occurs
+				//column.editor.subscribe("saveEvent", this._onEditorSaveEvent, this, true);
+
 				Dom.get("output").innerHTML = "";
 
 				this.showCellEditor(target);
@@ -266,6 +273,7 @@
 			});
 
 			var saveProperty = function(oArgs){
+				//console.log('exec once!');
 				var oEditor = oArgs.editor;
 				var elTd = oEditor.getTdEl();
 				var oRecord = this.getRecord(elTd);
@@ -275,12 +283,19 @@
 
 				if (newData == oldData) return;
 
-				oRecord.setData("ApplyFrom",oRecord.getData("ApplyTo"));
-				oEditor.getDataTable().render();
+				// Thanks for Jenny's suggestion
+				// There is no need to redraw the whole table, just updating cell is enough
+				oEditor.getDataTable().updateCell(oRecord, oEditor.getColumn(), newData);
+
+				Dom.get("output").innerHTML = "Update Property successfully!";
 			};
 
 			// Assign the handler to the Custom Event
 			myDataTable.subscribe("editorSaveEvent", saveProperty);
+
+			for(var p in editors) {
+				editors[p].subscribe("saveEvent", myDataTable._onEditorSaveEvent, myDataTable, true);
+			}
 
 			return {
 				oDS :myDataSource,
