@@ -4,12 +4,12 @@
 
 @since 2010-05-05
 
-@base-lib yui2 & yui3
+@base-lib yui2/yui3
 http://developer.yahoo.com/yui/
 
 @link
 -To be continued...
 
 @demo
--YUI2 DataTable CellEditor Extention
+-YUI2 DataTable CellEditor Extension
 http://cz9908.com/showcase/?item=YUI2-DataTable-UX&p=1
