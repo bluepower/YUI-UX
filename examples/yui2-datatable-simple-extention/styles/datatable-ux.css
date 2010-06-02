@@ -12,6 +12,10 @@ body {
 	width: 997px;
 }
 
+#datatable-ux #output {
+	height: 15px;
+}
+
 #datatable-ux-hd {
     width: 997px;
 	height: 229px;
