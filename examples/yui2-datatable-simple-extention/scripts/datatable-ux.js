@@ -1,39 +1,42 @@
 //------------------------------------------------------------
 // START YUI DataTable CellEditor Extension
 //------------------------------------------------------------
+   // Short alias
    var lang = YAHOO.lang,
 	   util = YAHOO.util,
 	   widget = YAHOO.widget,
 	   Dom = util.Dom,
-	   Event = util.Event;
+	   Event = util.Event,
+	   
+	   fnRenderForm = function(container, el) {
+		   var oHd, oCurrNode, oApply;
+		   oHd = document.createElement('DIV');
+		   container.insertBefore(oHd, el);
+		   oHd.id = container.id + '_admin_editor_head';
+		   Dom.addClass(oHd, 'admin-editor-hd');
+		   
+		   oCurrNode = document.createElement('DIV');
+		   container.insertBefore(oCurrNode, el);
+		   oCurrNode.innerHTML = 'Current node: ' + Dom.get('node-depths').innerHTML;
+		   Dom.addClass(oCurrNode, 'admin-editor-pd');
+		   
+		   oApply = document.createElement('DIV');
+		   container.appendChild(oApply);
+		   oApply.innerHTML = Dom.get('node-apply-wrap').innerHTML;
+		   Dom.addClass(oApply, 'admin-editor-fieldset');
+	   },
+		   
+	   fnMove = function(el) {
+		   el.style.width = '385px';
+		   Dom.addClass(el, 'admin-editor-pd');
+	   };
 
-   var fnRenderForm = function(container, el) {
-		var oHd = document.createElement('DIV');
-		container.insertBefore(oHd, el);
-		oHd.id = container.id + '_admin_editor_head';
-		Dom.addClass(oHd, 'admin-editor-hd');
-
-		var oCurrNode = document.createElement('DIV');
-		container.insertBefore(oCurrNode, el);
-		oCurrNode.innerHTML = 'Current node: ' + Dom.get('node-depths').innerHTML;
-		Dom.addClass(oCurrNode, 'admin-editor-pd');
-
-		var oApply = document.createElement('DIV');
-		container.appendChild(oApply);
-		oApply.innerHTML = Dom.get('node-apply-wrap').innerHTML;
-		Dom.addClass(oApply, 'admin-editor-fieldset');
-   };
-
-   var fnMove = function(el) {
-		el.style.width = '385px';
-		Dom.addClass(el, 'admin-editor-pd');               
-   };
-
+   // Namespace of GenMC project
    var Gcc = {
 	   admin: {}
    };
 
-   // extend TextboxCellEditor
+   // Extend TextboxCellEditor
    Gcc.admin.TextboxCellEditor = function(config) {
 	   Gcc.admin.TextboxCellEditor.superclass.constructor.call(this, config);
    };
@@ -49,7 +52,7 @@
 	   }
    });
 
-   // extend DropdownCellEditor
+   // Extend DropdownCellEditor
    Gcc.admin.DropdownCellEditor = function(config) {
 	   Gcc.admin.DropdownCellEditor.superclass.constructor.call(this, config);
    };
@@ -66,7 +69,7 @@
 	   }
    });
 
-   // extend RadioCellEditor
+   // Extend RadioCellEditor
    Gcc.admin.RadioCellEditor = function(config) {
 	   Gcc.admin.RadioCellEditor.superclass.constructor.call(this, config);
    };
@@ -97,32 +100,30 @@
 	};
 
 	var formatValue = function(elCell, oRecord, oColumn, oData) {
-		if (oRecord.getData("Readable")=="false") {
-			elCell.innerHTML="<span style='color: #AAAAAA'>***NOT READABLE***</span>";
+		if (oRecord.getData("Readable") == "false") {
+			elCell.innerHTML = "<span style='color: #AAAAAA'>***NOT READABLE***</span>";
 			return;
 		}
 
 		if (oRecord.getData("Type") == 4) {
-			if (oData == 1) elCell.innerHTML="True";
-			else
-				elCell.innerHTML="False";
+			elCell.innerHTML = oData == 1 ? "True" : "False";
 		}
 		else if (oRecord.getData("Type") == 8) {
 			var domain = oRecord.getData('Domain');
 			if (domain != null) {
-				for(var i=0;i<domain.length;i++) {
+				for(var i = 0; i < domain.length; i++) {
 					if (domain[i].value == oData) {
-						elCell.innerHTML=domain[i].label;
+						elCell.innerHTML = domain[i].label;
 						break;
 					}
 				};
 			}
 			else {
-				elCell.innerHTML=oData;
+				elCell.innerHTML = oData;
 			}
 		}
 		else {
-			elCell.innerHTML=oData;
+			elCell.innerHTML = oData;
 		}
 	};
 
@@ -220,14 +221,13 @@
 
 			myDataTable.subscribe("cellClickEvent", function (oArgs) {
 				var target = oArgs.target,
-				record = this.getRecord(target),
-				column = this.getColumn(target),
-				type = record.getData('Type'),
-				propName = record.getData('Name');
+				    record = this.getRecord(target),
+				    column = this.getColumn(target),
+				    type = record.getData('Type'),
+				    propName = record.getData('Name');
 
 				if (column.editor == null ) return;
-
-				if (record.getData('Writable')=='false') return;
+				if (record.getData('Writable') == 'false') return;
 
 				// default editors
 				column.editor = editors[type];
@@ -252,7 +252,7 @@
 				var rule = record.getData('Rule');
 				if (rule != null) {
 					var msg = record.getData('RuleMsg');
-					column.editor.validator =  function (val,curVal,editorInstance) {
+					column.editor.validator = function (val,curVal,editorInstance) {
 						if (lang.isUndefined(editorInstance.errMsgDiv)) {
 							editorInstance.errMsgDiv = editorInstance.getContainerEl().appendChild(document.createElement("div"));
 						}
@@ -260,7 +260,8 @@
 
 						if (rule.test(val)) {
 							return val;
-						} else {
+						}
+						else {
 							errMsgDiv.innerHTML = msg.replace(/(\{0\})/i,val);
 						}
 					};
