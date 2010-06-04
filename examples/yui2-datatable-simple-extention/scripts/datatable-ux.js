@@ -285,12 +285,11 @@
 			});
 
 			var saveProperty = function(oArgs) {
-				var oEditor = oArgs.editor;
-				var elTd = oEditor.getTdEl();
-				var oRecord = this.getRecord(elTd);
-				var propName = oRecord.getData('Name');
-				var newData = oArgs.newData;
-				var oldData = oArgs.oldData;
+				var oEditor = oArgs.editor,
+                    elTd = oEditor.getTdEl(),
+                    oRecord = this.getRecord(elTd),
+                    newData = oArgs.newData,
+                    oldData = oArgs.oldData;
 
 				if (newData == oldData) return;
 
