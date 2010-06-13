@@ -9,14 +9,19 @@
 	   Event = util.Event,
 	   
 	   fnRenderForm = function(container, el) {
-		   var oHd, oCurrNode, oApply;
+		   var oHd, oCurrNode, oApply, refNode = el;
+		   // fix for form render in webkit
+		   if(el.parentNode && el.parentNode.tagName.toUpperCase() == 'FORM') {
+			   refNode = el.parentNode;
+		   }
+
 		   oHd = document.createElement('DIV');
-		   container.insertBefore(oHd, el);
+		   container.insertBefore(oHd, refNode);
 		   oHd.id = container.id + '_admin_editor_head';
 		   Dom.addClass(oHd, 'admin-editor-hd');
 		   
 		   oCurrNode = document.createElement('DIV');
-		   container.insertBefore(oCurrNode, el);
+		   container.insertBefore(oCurrNode, refNode);
 		   oCurrNode.innerHTML = 'Current node: ' + Dom.get('node-depths').innerHTML;
 		   Dom.addClass(oCurrNode, 'admin-editor-pd');
 		   
